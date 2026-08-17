@@ -9,8 +9,7 @@
 
 **WpfTemplate** 是一套开箱即用的 WPF 桌面脚手架：Fluent 壳层布局、侧边导航、登录 / 注册 / 找回密码，以及对齐 HEI Portal 的 HTTP 客户端基建，方便在此基础上快速扩展业务页面。
 
-> 当前版本：`1.0.0` · 协议：[MIT License](LICENSE)  
-> 后端姊妹项目：[hei-boot](https://github.com/jiangbyte/hei-boot)（Portal API：`/api/v1/portal/*`）
+> 当前版本：`1.0.0` · 协议：[MIT License](LICENSE)
 
 ## 目录
 
@@ -20,7 +19,6 @@
 - [快速开始](#快速开始)
 - [配置说明](#配置说明)
 - [默认账号](#默认账号)
-- [姊妹项目](#姊妹项目)
 - [License](#license)
 
 ## 功能特性
@@ -114,17 +112,6 @@ API 基址见 [`WpfTemplate/Configuration/appsettings.json`](WpfTemplate/Configu
 | Portal | `user` | `123456` |
 
 > 仅供本地演示。部署到非本机环境后请立即修改默认密码，并核对后端配置与密钥。
-
-## 姊妹项目
-
-| 项目 | 说明 | 协议 |
-| --- | --- | --- |
-| [**hei-boot**](https://github.com/jiangbyte/hei-boot) | Spring Boot 工程化脚手架（推荐后端） | Apache License 2.0 |
-| [**hei-gin**](https://github.com/jiangbyte/hei-gin) | Go 轻量级后端框架 | Apache License 2.0 |
-| [**hei-fastapi**](https://github.com/jiangbyte/hei-fastapi) | FastAPI 异步脚手架 | Apache License 2.0 |
-| [**WpfTemplate**](https://github.com/jiangbyte/WpfTemplate) | WPF 桌面脚手架（本仓库） | MIT |
-
-> Portal 账号体系与 Web 门户同源；接口前缀为 `/api/v1/portal/*`。若使用 hei-gin / hei-fastapi，需自行确认 Portal API 是否兼容。
 
 ## License
 
