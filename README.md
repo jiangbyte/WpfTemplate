@@ -13,6 +13,7 @@
 
 ## 目录
 
+- [界面预览](#界面预览)
 - [功能特性](#功能特性)
 - [技术栈](#技术栈)
 - [工程结构](#工程结构)
@@ -20,6 +21,19 @@
 - [配置说明](#配置说明)
 - [默认账号](#默认账号)
 - [License](#license)
+
+## 界面预览
+
+<table>
+  <tr>
+    <td width="50%"><img src="docs/login.png" alt="门户登录" /></td>
+    <td width="50%"><img src="docs/home.png" alt="门户首页" /></td>
+  </tr>
+  <tr>
+    <td align="center">登录页面</td>
+    <td align="center">首页</td>
+  </tr>
+</table>
 
 ## 功能特性
 

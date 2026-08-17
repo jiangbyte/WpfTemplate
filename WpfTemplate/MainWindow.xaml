@@ -83,15 +83,16 @@
                            HeaderVisibility="Collapsed"
                            OpenPaneLength="240"
                            CompactPaneLength="56"
-                           FrameMargin="0"
-                           SelectionChanged="RootNavigation_OnSelectionChanged">
+                           FrameMargin="0">
             <ui:NavigationView.MenuItems>
                 <ui:NavigationViewItem Content="首页"
                                        Tag="home"
-                                       Icon="{ui:SymbolIcon Home24}" />
+                                       Icon="{ui:SymbolIcon Home24}"
+                                       Command="{Binding GoHomeCommand}" />
                 <ui:NavigationViewItem Content="关于"
                                        Tag="about"
-                                       Icon="{ui:SymbolIcon Info24}" />
+                                       Icon="{ui:SymbolIcon Info24}"
+                                       Command="{Binding GoAboutCommand}" />
             </ui:NavigationView.MenuItems>
 
             <ui:NavigationView.PaneFooter>

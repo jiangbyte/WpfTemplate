@@ -24,18 +24,23 @@ public partial class MainWindow
             {
                 ReplacePageContent();
             }
+            else if (e.PropertyName == nameof(ShellViewModel.SelectedMenuKey))
+            {
+                SyncMenuSelection();
+            }
         };
     }
 
     private void OnLoaded(object sender, RoutedEventArgs e)
     {
         _viewModel.IsPaneOpen = RootNavigation.IsPaneOpen;
+        SyncMenuSelection();
         ReplacePageContent();
     }
 
     private void TogglePaneButton_OnClick(object sender, RoutedEventArgs e)
     {
-        RootNavigation.IsPaneOpen = !RootNavigation.IsPaneOpen;
+        RootNavigation.SetCurrentValue(NavigationView.IsPaneOpenProperty, !RootNavigation.IsPaneOpen);
         _viewModel.IsPaneOpen = RootNavigation.IsPaneOpen;
     }
 
@@ -54,11 +59,13 @@ public partial class MainWindow
         UserMenuButton.ContextMenu.IsOpen = true;
     }
 
-    private void RootNavigation_OnSelectionChanged(NavigationView sender, RoutedEventArgs args)
+    private void SyncMenuSelection()
     {
-        if (sender.SelectedItem is NavigationViewItem item && item.Tag is string key)
+        var key = _viewModel.SelectedMenuKey;
+        foreach (var item in RootNavigation.MenuItems.OfType<NavigationViewItem>())
         {
-            _viewModel.SelectedMenuKey = key;
+            var active = item.Tag is string tag && tag == key;
+            item.SetCurrentValue(NavigationViewItem.IsActiveProperty, active);
         }
     }
 
