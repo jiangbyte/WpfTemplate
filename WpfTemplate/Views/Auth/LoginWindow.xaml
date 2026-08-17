@@ -1,0 +1,217 @@
+<ui:FluentWindow x:Class="WpfTemplate.Views.Auth.LoginWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+                 Title="登录"
+                 Width="920"
+                 Height="560"
+                 MinWidth="800"
+                 MinHeight="500"
+                 WindowStartupLocation="CenterScreen"
+                 ResizeMode="CanMinimize"
+                 ExtendsContentIntoTitleBar="True"
+                 WindowBackdropType="None"
+                 FontFamily="{StaticResource AppFontFamily}">
+    <Grid>
+        <Grid>
+            <Grid.ColumnDefinitions>
+                <ColumnDefinition Width="*" />
+                <ColumnDefinition Width="*" />
+            </Grid.ColumnDefinitions>
+
+            <Border Grid.Column="0" Background="{DynamicResource AccentFillColorDefaultBrush}">
+                <StackPanel VerticalAlignment="Center"
+                            HorizontalAlignment="Center"
+                            Margin="40">
+                    <ui:SymbolIcon Symbol="Cloud24"
+                                   FontSize="48"
+                                   Foreground="White"
+                                   HorizontalAlignment="Center" />
+                    <ui:TextBlock Margin="0,18,0,0"
+                                  FontTypography="Title"
+                                  FontFamily="{StaticResource AppFontFamily}"
+                                  Foreground="White"
+                                  HorizontalAlignment="Center"
+                                  Text="WpfTemplate" />
+                    <ui:TextBlock Margin="0,10,0,0"
+                                  FontFamily="{StaticResource AppFontFamily}"
+                                  Foreground="#CCFFFFFF"
+                                  HorizontalAlignment="Center"
+                                  TextAlignment="Center"
+                                  TextWrapping="Wrap"
+                                  Text="桌面脚手架，快速搭建你的应用" />
+                </StackPanel>
+            </Border>
+
+            <Border Grid.Column="1" Background="{DynamicResource ApplicationBackgroundBrush}">
+                <ScrollViewer VerticalScrollBarVisibility="Auto"
+                              HorizontalScrollBarVisibility="Disabled"
+                              Padding="0,0,0,12">
+                    <StackPanel VerticalAlignment="Center"
+                                HorizontalAlignment="Center"
+                                Width="340"
+                                Margin="40,48,40,24">
+                        <DockPanel LastChildFill="False">
+                            <ui:TextBlock FontTypography="Title"
+                                          FontFamily="{StaticResource AppFontFamily}"
+                                          Text="欢迎登录" />
+                            <ui:HyperlinkButton DockPanel.Dock="Right"
+                                                VerticalAlignment="Center"
+                                                FontFamily="{StaticResource AppFontFamily}"
+                                                Content="没有账号？去注册"
+                                                Visibility="{Binding RegisterLinkVisibility}"
+                                                Command="{Binding GoRegisterCommand}" />
+                        </DockPanel>
+
+                        <TabControl x:Name="LoginTabs"
+                                    Margin="0,16,0,0"
+                                    Height="44"
+                                    Padding="0"
+                                    BorderThickness="0"
+                                    Background="Transparent"
+                                    FontFamily="{StaticResource AppFontFamily}"
+                                    SelectionChanged="LoginTabs_OnSelectionChanged">
+                            <TabItem Header="账号"
+                                     Tag="ACCOUNT"
+                                     Visibility="{Binding AccountTabVisibility}" />
+                            <TabItem Header="邮箱"
+                                     Tag="EMAIL"
+                                     Visibility="{Binding EmailTabVisibility}" />
+                            <TabItem Header="手机"
+                                     Tag="PHONE"
+                                     Visibility="{Binding PhoneTabVisibility}" />
+                        </TabControl>
+
+                        <ui:TextBox Margin="0,16,0,0"
+                                    Height="36"
+                                    FontFamily="{StaticResource AppFontFamily}"
+                                    PlaceholderText="{Binding IdentityPlaceholder}"
+                                    Text="{Binding IdentityValue, UpdateSourceTrigger=PropertyChanged}" />
+
+                        <ui:PasswordBox x:Name="PasswordBox"
+                                        Margin="0,12,0,0"
+                                        Height="36"
+                                        FontFamily="{StaticResource AppFontFamily}"
+                                        PlaceholderText="请输入密码"
+                                        Visibility="{Binding PasswordFieldsVisibility}"
+                                        PasswordChanged="PasswordBox_OnPasswordChanged" />
+
+                        <Grid Margin="0,12,0,0"
+                              Height="36"
+                              Visibility="{Binding OtpFieldsVisibility}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <ui:TextBox Grid.Column="0"
+                                        Height="36"
+                                        FontFamily="{StaticResource AppFontFamily}"
+                                        PlaceholderText="请输入验证码"
+                                        Text="{Binding OtpCode, UpdateSourceTrigger=PropertyChanged}" />
+                            <ui:Button Grid.Column="2"
+                                       Height="36"
+                                       MinWidth="108"
+                                       Padding="12,0"
+                                       FontFamily="{StaticResource AppFontFamily}"
+                                       Appearance="Secondary"
+                                       Content="{Binding SendCodeLabel}"
+                                       Command="{Binding SendLoginCodeCommand}"
+                                       IsEnabled="{Binding CanSendCode}" />
+                        </Grid>
+
+                        <Grid Margin="0,12,0,0" Height="36">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="8" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <ui:TextBox Grid.Column="0"
+                                        Height="36"
+                                        FontFamily="{StaticResource AppFontFamily}"
+                                        PlaceholderText="请输入图形验证码"
+                                        Text="{Binding CaptchaValue, UpdateSourceTrigger=PropertyChanged}" />
+                            <ui:Button Grid.Column="2"
+                                       Height="36"
+                                       MinWidth="108"
+                                       Padding="8,0"
+                                       Appearance="Secondary"
+                                       ToolTip="刷新验证码"
+                                       Click="CaptchaImage_OnClick">
+                                <Grid>
+                                    <Image MaxHeight="28"
+                                           Stretch="Uniform"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center"
+                                           Source="{Binding CaptchaImage}"
+                                           Visibility="{Binding CaptchaImage, Converter={StaticResource NullToVisibility}}" />
+                                    <ui:SymbolIcon Symbol="ArrowClockwise24"
+                                                   HorizontalAlignment="Center"
+                                                   VerticalAlignment="Center"
+                                                   Visibility="{Binding CaptchaImage, Converter={StaticResource NullToCollapsed}}" />
+                                </Grid>
+                            </ui:Button>
+                        </Grid>
+
+                        <DockPanel Margin="0,12,0,0" LastChildFill="False">
+                            <CheckBox VerticalAlignment="Center"
+                                      FontFamily="{StaticResource AppFontFamily}"
+                                      Content="记住我"
+                                      IsChecked="{Binding RememberMe}" />
+                            <StackPanel DockPanel.Dock="Right"
+                                        Orientation="Horizontal"
+                                        VerticalAlignment="Center">
+                                <ui:HyperlinkButton VerticalAlignment="Center"
+                                                    FontFamily="{StaticResource AppFontFamily}"
+                                                    Content="{Binding ModeSwitchLabel}"
+                                                    Visibility="{Binding OtpSwitchVisibility}"
+                                                    Command="{Binding ToggleLoginModeCommand}" />
+                                <ui:TextBlock Margin="6,0"
+                                              VerticalAlignment="Center"
+                                              FontFamily="{StaticResource AppFontFamily}"
+                                              Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                              Text="·"
+                                              Visibility="{Binding OtpSwitchVisibility}" />
+                                <ui:HyperlinkButton VerticalAlignment="Center"
+                                                    FontFamily="{StaticResource AppFontFamily}"
+                                                    Content="忘记密码？"
+                                                    Command="{Binding GoForgotPasswordCommand}" />
+                            </StackPanel>
+                        </DockPanel>
+
+                        <ui:InfoBar Margin="0,12,0,0"
+                                    IsOpen="True"
+                                    IsClosable="False"
+                                    Severity="Success"
+                                    FontFamily="{StaticResource AppFontFamily}"
+                                    Title="{Binding StatusMessage}"
+                                    Visibility="{Binding StatusMessage, Converter={StaticResource NullOrEmptyToVisibility}}" />
+
+                        <ui:InfoBar Margin="0,12,0,0"
+                                    IsOpen="True"
+                                    IsClosable="False"
+                                    Severity="Error"
+                                    FontFamily="{StaticResource AppFontFamily}"
+                                    Title="{Binding ErrorMessage}"
+                                    Visibility="{Binding ErrorMessage, Converter={StaticResource NullOrEmptyToVisibility}}" />
+
+                        <ui:Button Margin="0,12,0,0"
+                                   Height="36"
+                                   HorizontalAlignment="Stretch"
+                                   FontFamily="{StaticResource AppFontFamily}"
+                                   Appearance="Primary"
+                                   Content="登录"
+                                   Command="{Binding LoginCommand}"
+                                   IsEnabled="{Binding IsBusy, Converter={StaticResource InvertBool}}" />
+                    </StackPanel>
+                </ScrollViewer>
+            </Border>
+        </Grid>
+
+        <ui:TitleBar VerticalAlignment="Top"
+                     Title=""
+                     ShowMaximize="False"
+                     Background="Transparent"
+                     ButtonsBackground="Transparent" />
+    </Grid>
+</ui:FluentWindow>

@@ -1,0 +1,7 @@
+<svg xmlns="http://www.w3.org/2000/svg" width="32" height="32" viewBox="0 0 32 32" fill="none">
+  <!-- AIOps Studio app mark: stacked signal + node -->
+  <rect x="2" y="2" width="28" height="28" rx="7" fill="#0F6CBD"/>
+  <circle cx="16" cy="18" r="3.2" fill="#FFFFFF"/>
+  <path d="M10.5 14.2a7.2 7.2 0 0 1 11 0" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" fill="none"/>
+  <path d="M7.5 11a11.2 11.2 0 0 1 17 0" stroke="#FFFFFF" stroke-width="2" stroke-linecap="round" fill="none" opacity="0.85"/>
+</svg>

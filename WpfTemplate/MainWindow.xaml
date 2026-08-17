@@ -1,0 +1,223 @@
+<ui:FluentWindow x:Class="WpfTemplate.MainWindow"
+                 xmlns="http://schemas.microsoft.com/winfx/2006/xaml/presentation"
+                 xmlns:x="http://schemas.microsoft.com/winfx/2006/xaml"
+                 xmlns:ui="http://schemas.lepo.co/wpfui/2022/xaml"
+                 xmlns:shell="clr-namespace:System.Windows.Shell;assembly=PresentationFramework"
+                 Title="WpfTemplate"
+                 Width="1200"
+                 Height="720"
+                 MinWidth="960"
+                 MinHeight="560"
+                 WindowStartupLocation="CenterScreen"
+                 ExtendsContentIntoTitleBar="True"
+                 FontFamily="{StaticResource AppFontFamily}">
+    <Grid>
+        <Grid.RowDefinitions>
+            <RowDefinition Height="Auto" />
+            <RowDefinition Height="*" />
+        </Grid.RowDefinitions>
+
+        <ui:TitleBar Grid.Row="0"
+                     Title=""
+                     CloseWindowByDoubleClickOnIcon="False"
+                     FontFamily="{StaticResource AppFontFamily}">
+            <ui:TitleBar.Icon>
+                <ui:ImageIcon Source="{StaticResource AppIconDrawing}"
+                              Width="18"
+                              Height="18" />
+            </ui:TitleBar.Icon>
+            <ui:TitleBar.Header>
+                <StackPanel Orientation="Horizontal" VerticalAlignment="Center">
+                    <Button x:Name="TogglePaneButton"
+                            Width="36"
+                            Height="28"
+                            Margin="0,0,4,0"
+                            Padding="0"
+                            VerticalAlignment="Center"
+                            BorderThickness="0"
+                            Background="Transparent"
+                            FocusVisualStyle="{x:Null}"
+                            Cursor="Hand"
+                            ToolTip="展开/收起菜单"
+                            shell:WindowChrome.IsHitTestVisibleInChrome="True"
+                            Click="TogglePaneButton_OnClick">
+                        <Button.Template>
+                            <ControlTemplate TargetType="Button">
+                                <Border x:Name="Chrome"
+                                        Background="Transparent"
+                                        CornerRadius="4"
+                                        SnapsToDevicePixels="True">
+                                    <ContentPresenter HorizontalAlignment="Center"
+                                                      VerticalAlignment="Center" />
+                                </Border>
+                                <ControlTemplate.Triggers>
+                                    <Trigger Property="IsMouseOver" Value="True">
+                                        <Setter TargetName="Chrome"
+                                                Property="Background"
+                                                Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+                                    </Trigger>
+                                    <Trigger Property="IsPressed" Value="True">
+                                        <Setter TargetName="Chrome"
+                                                Property="Background"
+                                                Value="{DynamicResource SubtleFillColorTertiaryBrush}" />
+                                    </Trigger>
+                                </ControlTemplate.Triggers>
+                            </ControlTemplate>
+                        </Button.Template>
+                        <ui:SymbolIcon Symbol="Navigation24" FontSize="14" />
+                    </Button>
+                    <TextBlock VerticalAlignment="Center"
+                               FontFamily="{StaticResource AppFontFamily}"
+                               FontSize="12"
+                               Text="WpfTemplate" />
+                </StackPanel>
+            </ui:TitleBar.Header>
+        </ui:TitleBar>
+
+        <ui:NavigationView x:Name="RootNavigation"
+                           Grid.Row="1"
+                           PaneDisplayMode="Left"
+                           IsBackButtonVisible="Collapsed"
+                           IsPaneToggleVisible="False"
+                           AlwaysShowHeader="False"
+                           HeaderVisibility="Collapsed"
+                           OpenPaneLength="240"
+                           CompactPaneLength="56"
+                           FrameMargin="0"
+                           SelectionChanged="RootNavigation_OnSelectionChanged">
+            <ui:NavigationView.MenuItems>
+                <ui:NavigationViewItem Content="首页"
+                                       Tag="home"
+                                       Icon="{ui:SymbolIcon Home24}" />
+                <ui:NavigationViewItem Content="关于"
+                                       Tag="about"
+                                       Icon="{ui:SymbolIcon Info24}" />
+            </ui:NavigationView.MenuItems>
+
+            <ui:NavigationView.PaneFooter>
+                <Button x:Name="UserMenuButton"
+                        Margin="{Binding UserButtonMargin}"
+                        Padding="{Binding UserButtonPadding}"
+                        HorizontalAlignment="{Binding UserButtonAlignment}"
+                        HorizontalContentAlignment="{Binding UserButtonContentAlignment}"
+                        MinWidth="40"
+                        MinHeight="40"
+                        Background="Transparent"
+                        BorderThickness="0"
+                        ClipToBounds="False"
+                        Cursor="Hand"
+                        FontFamily="{StaticResource AppFontFamily}"
+                        ToolTip="{Binding UserDisplayName}"
+                        Click="UserMenuButton_OnClick">
+                    <Button.Template>
+                        <ControlTemplate TargetType="Button">
+                            <Border x:Name="Root"
+                                    Background="Transparent"
+                                    CornerRadius="6"
+                                    Padding="{TemplateBinding Padding}"
+                                    ClipToBounds="False"
+                                    SnapsToDevicePixels="True">
+                                <ContentPresenter HorizontalAlignment="{TemplateBinding HorizontalContentAlignment}"
+                                                  VerticalAlignment="Center" />
+                            </Border>
+                            <ControlTemplate.Triggers>
+                                <Trigger Property="IsMouseOver" Value="True">
+                                    <Setter TargetName="Root" Property="Background" Value="{DynamicResource SubtleFillColorSecondaryBrush}" />
+                                </Trigger>
+                                <Trigger Property="IsPressed" Value="True">
+                                    <Setter TargetName="Root" Property="Background" Value="{DynamicResource SubtleFillColorTertiaryBrush}" />
+                                </Trigger>
+                            </ControlTemplate.Triggers>
+                        </ControlTemplate>
+                    </Button.Template>
+
+                    <Grid ClipToBounds="False">
+                        <Grid Visibility="{Binding ExpandedUserInfoVisibility}">
+                            <Grid.ColumnDefinitions>
+                                <ColumnDefinition Width="Auto" />
+                                <ColumnDefinition Width="*" />
+                                <ColumnDefinition Width="Auto" />
+                            </Grid.ColumnDefinitions>
+                            <Grid Width="32" Height="32" Margin="0,0,10,0">
+                                <Border CornerRadius="16"
+                                        Background="{DynamicResource AccentFillColorDefaultBrush}"
+                                        Visibility="{Binding AvatarImage, Converter={StaticResource NullToCollapsed}}">
+                                    <TextBlock Text="{Binding AvatarInitials}"
+                                               FontFamily="{StaticResource AppFontFamily}"
+                                               FontSize="12"
+                                               FontWeight="SemiBold"
+                                               Foreground="White"
+                                               HorizontalAlignment="Center"
+                                               VerticalAlignment="Center" />
+                                </Border>
+                                <Ellipse Visibility="{Binding AvatarImage, Converter={StaticResource NullToVisibility}}">
+                                    <Ellipse.Fill>
+                                        <ImageBrush ImageSource="{Binding AvatarImage}"
+                                                    Stretch="UniformToFill" />
+                                    </Ellipse.Fill>
+                                </Ellipse>
+                            </Grid>
+                            <StackPanel Grid.Column="1" VerticalAlignment="Center">
+                                <TextBlock FontFamily="{StaticResource AppFontFamily}"
+                                           FontWeight="SemiBold"
+                                           TextTrimming="CharacterEllipsis"
+                                           Text="{Binding UserDisplayName}" />
+                                <TextBlock Margin="0,2,0,0"
+                                           FontSize="11"
+                                           FontFamily="{StaticResource AppFontFamily}"
+                                           Foreground="{DynamicResource TextFillColorSecondaryBrush}"
+                                           TextTrimming="CharacterEllipsis"
+                                           Text="{Binding UserSubtitle}"
+                                           Visibility="{Binding UserSubtitle, Converter={StaticResource NullOrEmptyToVisibility}}" />
+                            </StackPanel>
+                            <ui:SymbolIcon Grid.Column="2"
+                                           Margin="8,0,0,0"
+                                           FontSize="12"
+                                           VerticalAlignment="Center"
+                                           Symbol="ChevronUp24"
+                                           Foreground="{DynamicResource TextFillColorSecondaryBrush}" />
+                        </Grid>
+
+                        <Grid Width="32"
+                              Height="32"
+                              HorizontalAlignment="Center"
+                              VerticalAlignment="Center"
+                              Visibility="{Binding CompactUserInfoVisibility}">
+                            <Border CornerRadius="16"
+                                    Background="{DynamicResource AccentFillColorDefaultBrush}"
+                                    Visibility="{Binding AvatarImage, Converter={StaticResource NullToCollapsed}}">
+                                <TextBlock Text="{Binding AvatarInitials}"
+                                           FontFamily="{StaticResource AppFontFamily}"
+                                           FontSize="12"
+                                           FontWeight="SemiBold"
+                                           Foreground="White"
+                                           HorizontalAlignment="Center"
+                                           VerticalAlignment="Center" />
+                            </Border>
+                            <Ellipse Visibility="{Binding AvatarImage, Converter={StaticResource NullToVisibility}}">
+                                <Ellipse.Fill>
+                                    <ImageBrush ImageSource="{Binding AvatarImage}"
+                                                Stretch="UniformToFill" />
+                                </Ellipse.Fill>
+                            </Ellipse>
+                        </Grid>
+                    </Grid>
+                    <Button.ContextMenu>
+                        <ContextMenu MinWidth="220" FontFamily="{StaticResource AppFontFamily}">
+                            <MenuItem Header="首页"
+                                      Icon="{ui:SymbolIcon Home24}"
+                                      Command="{Binding GoHomeCommand}" />
+                            <MenuItem Header="关于"
+                                      Icon="{ui:SymbolIcon Info24}"
+                                      Command="{Binding GoAboutCommand}" />
+                            <Separator />
+                            <MenuItem Header="退出登录"
+                                      Icon="{ui:SymbolIcon SignOut24}"
+                                      Command="{Binding LogoutCommand}" />
+                        </ContextMenu>
+                    </Button.ContextMenu>
+                </Button>
+            </ui:NavigationView.PaneFooter>
+        </ui:NavigationView>
+    </Grid>
+</ui:FluentWindow>
